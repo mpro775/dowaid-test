@@ -1,0 +1,523 @@
+{
+	"info": {
+		"_postman_id": "items-crud-api",
+		"name": "Items CRUD API",
+		"description": "مجموعة Postman لاختبار API إدارة الأصناف - Node.js + Express + MongoDB",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items?page=1&limit=10",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1",
+							"description": "رقم الصفحة"
+						},
+						{
+							"key": "limit",
+							"value": "10",
+							"description": "عدد العناصر في الصفحة"
+						},
+						{
+							"key": "search",
+							"value": "",
+							"description": "البحث في الاسم والوصف",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "",
+							"description": "فلترة حسب الفئة",
+							"disabled": true
+						},
+						{
+							"key": "isAvailable",
+							"value": "",
+							"description": "فلترة حسب حالة التوفر (true/false)",
+							"disabled": true
+						}
+					]
+				},
+				"description": "جلب جميع الأصناف مع إمكانية Pagination والبحث والفلترة"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Items - With Search",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items?page=1&limit=10&search=لابتوب",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "limit",
+							"value": "10"
+						},
+						{
+							"key": "search",
+							"value": "لابتوب"
+						}
+					]
+				},
+				"description": "البحث عن أصناف تحتوي على كلمة 'لابتوب' في الاسم أو الوصف"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Items - Filter by Category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items?category=إلكترونيات",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "إلكترونيات"
+						}
+					]
+				},
+				"description": "فلترة الأصناف حسب الفئة"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Items - Filter by Availability",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items?isAvailable=true",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					],
+					"query": [
+						{
+							"key": "isAvailable",
+							"value": "true"
+						}
+					]
+				},
+				"description": "فلترة الأصناف حسب حالة التوفر"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item By ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{item_id}}",
+							"description": "معرف الصنف"
+						}
+					]
+				},
+				"description": "جلب صنف محدد باستخدام المعرف"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Item - Full Data",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"لابتوب\",\n  \"description\": \"لابتوب عالي الأداء مع معالج قوي\",\n  \"price\": 5000,\n  \"quantity\": 10,\n  \"category\": \"إلكترونيات\",\n  \"isAvailable\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				},
+				"description": "إنشاء صنف جديد بجميع البيانات"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Item - Required Fields Only",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"هاتف ذكي\",\n  \"price\": 3000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				},
+				"description": "إنشاء صنف جديد بالحقول المطلوبة فقط (name و price)"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Item - Another Example",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"سماعات لاسلكية\",\n  \"description\": \"سماعات عالية الجودة مع تقنية إلغاء الضوضاء\",\n  \"price\": 800,\n  \"quantity\": 25,\n  \"category\": \"إلكترونيات\",\n  \"isAvailable\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				},
+				"description": "مثال آخر لإنشاء صنف جديد"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item - Full Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"لابتوب محدث\",\n  \"description\": \"لابتوب محدث بمواصفات أفضل\",\n  \"price\": 4500,\n  \"quantity\": 15,\n  \"category\": \"إلكترونيات\",\n  \"isAvailable\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{item_id}}",
+							"description": "معرف الصنف المراد تحديثه"
+						}
+					]
+				},
+				"description": "تحديث جميع بيانات الصنف"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item - Partial Update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"price\": 2800,\n  \"quantity\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{item_id}}",
+							"description": "معرف الصنف المراد تحديثه"
+						}
+					]
+				},
+				"description": "تحديث جزئي - تحديث السعر والكمية فقط"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Item - Change Availability",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"isAvailable\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{item_id}}",
+							"description": "معرف الصنف المراد تحديثه"
+						}
+					]
+				},
+				"description": "تحديث حالة التوفر فقط"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Item",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items/:id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{item_id}}",
+							"description": "معرف الصنف المراد حذفه"
+						}
+					]
+				},
+				"description": "حذف صنف محدد"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Root",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "جلب معلومات API الرئيسية"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Item - Validation Error Example",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"a\",\n  \"price\": -100\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/api/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items"
+					]
+				},
+				"description": "مثال على خطأ Validation - اسم قصير جداً وسعر سالب"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item - Invalid ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items/invalid-id",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"invalid-id"
+					]
+				},
+				"description": "مثال على خطأ - معرف غير صحيح"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Item - Not Found",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/items/507f1f77bcf86cd799439011",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"api",
+						"items",
+						"507f1f77bcf86cd799439011"
+					]
+				},
+				"description": "مثال على خطأ - صنف غير موجود"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "item_id",
+			"value": "",
+			"type": "string",
+			"description": "سيتم ملؤه تلقائياً بعد إنشاء صنف جديد"
+		}
+	]
+}
+
