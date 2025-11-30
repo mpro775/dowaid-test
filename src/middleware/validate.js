@@ -1,4 +1,4 @@
-const { body, param, validationResult } = require('express-validator');
+const { body, param, validationResult } = require("express-validator");
 
 // Validation middleware للتحقق من النتائج
 const validate = (req, res, next) => {
@@ -12,81 +12,90 @@ const validate = (req, res, next) => {
   next();
 };
 
+// Middleware للسماح بالحقول الإضافية (unknown fields)
+// express-validator لا يرفض الحقول الإضافية بشكل افتراضي، لكن هذا يوضح المرونة
+const allowUnknownFields = (req, res, next) => {
+  // تمرير كل الحقول الإضافية كما هي - NoSQL مرونة
+  next();
+};
+
 // قواعد Validation لإنشاء صنف جديد
 const validateCreateItem = [
-  body('name')
+  allowUnknownFields, // 👈 يسمح بالحقول الإضافية (NoSQL مرونة)
+  body("name")
     .trim()
     .notEmpty()
-    .withMessage('اسم الصنف مطلوب')
+    .withMessage("اسم الصنف مطلوب")
     .isLength({ min: 2, max: 100 })
-    .withMessage('اسم الصنف يجب أن يكون بين 2 و 100 حرف'),
-  body('description')
+    .withMessage("اسم الصنف يجب أن يكون بين 2 و 100 حرف"),
+  body("description")
     .optional()
     .trim()
     .isLength({ max: 500 })
-    .withMessage('الوصف لا يمكن أن يتجاوز 500 حرف'),
-  body('price')
+    .withMessage("الوصف لا يمكن أن يتجاوز 500 حرف"),
+  body("price")
     .notEmpty()
-    .withMessage('السعر مطلوب')
+    .withMessage("السعر مطلوب")
     .isFloat({ min: 0 })
-    .withMessage('السعر يجب أن يكون رقماً موجباً'),
-  body('quantity')
+    .withMessage("السعر يجب أن يكون رقماً موجباً"),
+  body("quantity")
     .optional()
     .isInt({ min: 0 })
-    .withMessage('الكمية يجب أن تكون رقماً صحيحاً موجباً'),
-  body('category')
+    .withMessage("الكمية يجب أن تكون رقماً صحيحاً موجباً"),
+  body("category")
     .optional()
     .trim()
     .isLength({ max: 50 })
-    .withMessage('اسم الفئة لا يمكن أن يتجاوز 50 حرف'),
-  body('isAvailable')
+    .withMessage("اسم الفئة لا يمكن أن يتجاوز 50 حرف"),
+  body("isAvailable")
     .optional()
     .isBoolean()
-    .withMessage('حالة التوفر يجب أن تكون true أو false'),
+    .withMessage("حالة التوفر يجب أن تكون true أو false"),
   validate,
 ];
 
 // قواعد Validation لتحديث صنف
 const validateUpdateItem = [
-  body('name')
+  allowUnknownFields, // 👈 يسمح بالحقول الإضافية (NoSQL مرونة)
+  body("name")
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('اسم الصنف لا يمكن أن يكون فارغاً')
+    .withMessage("اسم الصنف لا يمكن أن يكون فارغاً")
     .isLength({ min: 2, max: 100 })
-    .withMessage('اسم الصنف يجب أن يكون بين 2 و 100 حرف'),
-  body('description')
+    .withMessage("اسم الصنف يجب أن يكون بين 2 و 100 حرف"),
+  body("description")
     .optional()
     .trim()
     .isLength({ max: 500 })
-    .withMessage('الوصف لا يمكن أن يتجاوز 500 حرف'),
-  body('price')
+    .withMessage("الوصف لا يمكن أن يتجاوز 500 حرف"),
+  body("price")
     .optional()
     .isFloat({ min: 0 })
-    .withMessage('السعر يجب أن يكون رقماً موجباً'),
-  body('quantity')
+    .withMessage("السعر يجب أن يكون رقماً موجباً"),
+  body("quantity")
     .optional()
     .isInt({ min: 0 })
-    .withMessage('الكمية يجب أن تكون رقماً صحيحاً موجباً'),
-  body('category')
+    .withMessage("الكمية يجب أن تكون رقماً صحيحاً موجباً"),
+  body("category")
     .optional()
     .trim()
     .isLength({ max: 50 })
-    .withMessage('اسم الفئة لا يمكن أن يتجاوز 50 حرف'),
-  body('isAvailable')
+    .withMessage("اسم الفئة لا يمكن أن يتجاوز 50 حرف"),
+  body("isAvailable")
     .optional()
     .isBoolean()
-    .withMessage('حالة التوفر يجب أن تكون true أو false'),
+    .withMessage("حالة التوفر يجب أن تكون true أو false"),
   validate,
 ];
 
 // قواعد Validation للـ ID
 const validateItemId = [
-  param('id')
+  param("id")
     .notEmpty()
-    .withMessage('معرف الصنف مطلوب')
+    .withMessage("معرف الصنف مطلوب")
     .isMongoId()
-    .withMessage('معرف الصنف غير صحيح'),
+    .withMessage("معرف الصنف غير صحيح"),
   validate,
 ];
 
@@ -95,4 +104,3 @@ module.exports = {
   validateUpdateItem,
   validateItemId,
 };
-

@@ -36,6 +36,7 @@ const itemSchema = new mongoose.Schema(
   },
   {
     timestamps: true, // إضافة createdAt و updatedAt تلقائياً
+    strict: false, // 👈 يسمح بأي حقول إضافية
   }
 );
 
